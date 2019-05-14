@@ -1,0 +1,289 @@
+﻿from nltk.corpus import stopwords 
+from nltk.tokenize import word_tokenize 
+  
+example_sent = "This is a sample sentence, showing off the stop words filtration."
+  
+stop_words = set(stopwords.words('english')) 
+
+
+word_tokens = word_tokenize(example_sent) 
+print(type(word_tokens))
+filtered_sentence = [w for w in word_tokens if not w in stop_words] 
+print(example_sent)
+print(word_tokens) 
+print(filtered_sentence) 
+" ".join(filtered_sentence)
+
+
+++++++++++++++++++++++++++no punctuations below#############
+# define punctuation
+punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
+
+my_str = "Hello!!!, he said ---and went."
+
+# To take input from the user
+# my_str = input("Enter a string: ")
+
+# remove punctuation from the string
+no_punct = ""
+for char in my_str:
+    
+  if char not in punctuations:
+      no_punct = no_punct + char
+
+# display the unpunctuated string
+print(no_punct)
+
+Index:
+1 - Introduction
+2 - lematization and stemming
+3 - spam detector and word frequency measure
+5 - What is corpus
+7  - term document matrix:(TDA)
+8 - what is tokenizer?
+15 - feature vector or dictonary for each words
+18 - def my_tokenizer(s) : for pre-processing
+21 - What is Part-Of-Speech Tagging(POS)?
+22 - what is Named Entity Disambiguation?
+23 - What is Named Entity Recognition?: 
+24 - Bag of Words 
+25 - Sample code to remove noisy words from a text
+26 - TF - IDF 
+27 - Object Standardization
+28 - Text Cleaning 
+
+
+
+https://www.analyticsvidhya.com/blog/2017/01/ultimate-guide-to-understand-implement-natural-language-processing-codes-in-python/     important
+https://www.analyticsvidhya.com/blog/2018/04/a-comprehensive-guide-to-understand-and-implement-text-classification-in-python/
+https://www.hackerearth.com/practice/machine-learning/advanced-techniques/text-mining-feature-engineering-r/tutorial/   important link
+https://www.analyticsvidhya.com/blog/2018/02/natural-language-processing-for-beginners-using-textblob/
+https://www.analyticsvidhya.com/blog/2017/10/essential-nlp-guide-data-scientists-top-10-nlp-tasks/
+
+Udemy video materials  - https://github.com/lazyprogrammer/machine_learning_examples
+I have went through video practise when have time - https://www.youtube.com/watch?v=mKxFfjNyj3c
+Kaggale past solutions - http://ndres.me/kaggle-past-solutions/
+The Natural Language Toolkit
+1) NLP(Natural Language Processing)
+It is not so simple as there is lot of ambiguity. One sentence can interpret into multiple things.
+I am sure we have all been in situations where something was said and it was interpreted incorrectly.
+2)diff between lematization and stemming and which one should we use it ?
+Stemming and Lemmatization are Text Normalization (or sometimes called Word Normalization) techniques in the field of Natural Language Processing
+Stemming algorithms are typically rule-based. You can view them as heuristic process that sort-of lops off the ends of words.
+ A word is looked at and run through a series of conditionals that determine how to cut it down.
+Stemming and Lemmatization both generate the root form of the inflected words. The difference is that stem might not be an actual word whereas, lemma is an actual language word. 
+... Whereas, in lemmatization, you used WordNet corpus and a corpus for stop words as well to produce lemma which makes it slower than stemming.
+Well, if we think of stemming as just take a best guess of where to snip a word based on how it looks, lemmatization is a more calculated process. 
+It involves resolving words to their dictionary form.4
+Luckily, if you’re working in English, you can quickly use lemmatization through NLTK just like you do with stemming. For non english its become difficlut so we can go for stemming
+To get the best results, 
+
+however, you’ll have to feed the part of speech tags to the lemmatizer, otherwise it might not reduce all the words to the lemmas you desire
+ In fact, a lemma of a word is its dictionary or canonical form!
+ Below is the sample code that performs lemmatization and stemming using python’s popular library – NLTK.
+from nltk.stem.wordnet import WordNetLemmatizer 
+lem = WordNetLemmatizer()
+
+from nltk.stem.porter import PorterStemmer 
+stem = PorterStemmer()
+
+word = "multiplying" 
+lem.lemmatize(word, "v")
+>> "multiply" 
+stem.stem(word)
+>> "multipli"
+Problem with stemming is it sometime tries to convert to its base form which is not actually a word in english dictionary
+
+3) Spam Detector:(If require to study or implement in future refer udemny video and google some blogs to understand more)
+In simpler term we can get 48 words for example from all the mails we  have and create 45 variable and use it as independent variables? 
+columns 1:48
+word frequency measure:
+(number of times word appears divided by number of words in document)  Multily by 100
+Last column is a label
+1 = spam and 0 = no spam
+One example of term document matrix - terms go along columns , documents(aka emails) go along rows
+4) Steps of Pre processsing the data:
+Data we have is large and have unstructured volume of information.It is difficult to analyse as its not in table format.So we need to pre-process
+and convert into structured format.Its steps are
+Remove unwanted lines of data
+Convert text to a corpus(Corpus creation)
+reading a corpus
+Inspecting corpus
+creating a tdm(term document matrix)
+4) Remove unwantd lines of data:
+Now sometime we need to delete unwanted lines from documents
+Eg: Suppose we need to analyse all the words and subject matters in IEEE paper.We want to do sentiment analysis on this.
+Starting 10 lines of this will be autor and publication details . So we will remove this unwanted data
+5) What is corpus:
+A large and structured set of texts or documents .In r tm package helps us to do this.It is baisc package used for pre processin of text data
+So it helps to convert unstructured data to structured data i.e corpus before we analyse the data
+Eg : If der are 10 documents it becomes easy to travel trhrough this documents if its in the form of  corpus
+Corpus Creation - It involves creating a matrix comprising of documents and terms (or tokens). A document can be understood as each row having product
+ description and each column having terms. Terms refers to each word in the description. Usually, the number of documents in the corpus equals
+ to number of rows in the given data.
+6) Next step is to Clean  the corpus:
+Parse the data: extract words, convert everything to either upper or lowercase as dance and Dance will be considered 2 different words as R is case senstitivie,
+discard spaces and punctuations
+Remove stop words:it is words which doesnt add any additional information to your analysis.eg : was,an,a,it etc
+Word stemming: Stem means keeping only the roots of your words. Eg if documents have words like trying, tried , try  which all means same just difference 
+tenses so we can replace it with one word Try.
+7) What is term document matrix:(TDA)
+Now whatever text we have till now process cannot directly give the insights.Next steps is to convert corpus into TDA.
+It converts text data into numeric format which is much more easier to analyse.It is a mathematical matrix which describes the frequency of terms
+that occur in a collection of documents
+In this mathematical matrix rows refered to as terms and columns refered to as documents
+For eg : If we have 2 short documents D1 and D2. It has below statemnts
+D1 = "I like databases"
+D2 = "I hate databases"
+Now if we want to take this 2 documents and represent it into term document matrix below is how it will look like,
+				Term Document  Matrix
+				D1 				D2
+	I			1				1
+	like		1				0
+	hate		0				1
+	databases	1				1
+Document term matrix is just transpose version of term document matrix.
+So from below matrix we can get I appers in both documents , like only in document D1 and so on.
+8) What is sparse term:
+Most terms will be used infrequently and wont add value to analysis.So we need to remove such terms which is called sparse term
+9) What analysis can be done using TDA:
+ - Finding frequent terms: We can find the terms which are occuring more frequently in the document
+ - Finding associations : Terms that are corelated or similiare to each other
+ So certain techniues like clustering,sentiment analysis etc can be implemented using TDA.
+10)  TF IDF - Term frequency inverse document frequency:
+11) What is feature vectors?
+It is just a list of numbers
+12) Preprocess the data:
+There are 2 inbuilt packages in skikit learn 
+TfidVectorizer which converts your data into TF IDF format
+CountVectorizer that does raw counts
+Note ` they take in sentences which has a list of strings where each string is a document in the dataset
+==========================Sentiment Ananlysis ========
+13) what is tokenizer?
+It converts strings into a list of tokens
+it can be acthive using split() function in python
+eg : input = "Bob baked a cake today" 
+     output = ["Bob","baked","a","cake","today"]
+ But we should use nltk.tokenize.word_tokenize  (Natural language toolkit )
+It does extra things beyong standard string split
+14) Lets see how to convert tokens into feature vectors
+size of feature vector is equal to size of vocabulory
+So eg is there are 2000 unique words in our data then each feature vector is going to be of size 2000
+Typically represent vocab size by V
+Eg: Turning  a sentence  into a binary bag of words in English.Eg If a word appears in sentcne its get converrted to 1 in  feature vector else 0
+15) 3 ingredients of feature vector or dictonary for each words:
+Input sentence
+empty feature vector of all 0s of size V
+a dictionary thats maps words to index
+In dictonary key is word and Value : a unique integer from  0 to V-1 where V is size of vector
+16) Inputs should be normalized for better prediction
+17) In our code we use below:
+WordNetLemmatizer() - it turns words into there base form. For eg : dogs and dog it converts to dog, cats and cat to cat and so on.which helps
+helps to keep vocabulory size small
+stopwords are the words which doesnt make any useful - words like a , an, the , or 
+18) In function def my_tokenizer(s):
+      s = s.lower() ... converts all words to lowercase so that 2 same words are not consider seperate words
+	  tokens = nltk.tokenize.word_tokenize(s) ... it create tokens 
+	  tokens = [t for t in tokens if len(t) > 2]  ...remove small words as they are mostly of no use
+	  tokens = [wordnet_lemmatizer.lemmatize(t) for t in tokens] ...make 2 words cats and cat to one word cat
+	  tokens = [t for t in tokens if t not in stopwords]  ...remove stopwords
+	  return tokens
+================Latent semantic analysis=================
+19) What is synonymy and polysemy?
+When we have multiple words with the same meaning that is called as synonymy
+when we have one word with multiple meanings it is called as polysemy
+One way to resolve this is 2 combine words with  similiar meaning
+Eg : we see words computer,PC and Laptop very often .That means they are highly correlated
+You can think of a sort of latent variable or hidden variable that represents all of them.Hence the term latent semantic analysis
+The job of LSA is to find these variables and transform the original data into these new variables
+Hence LSA solves the problem of synonmy by combinin correlated variables
+LSA is an example of unsupervised learning  
+But not sure it solves the problem of polysemy or no
+20) Math behind LSA is based on SVD i.e Singular Value Decomposition
+Goal of  SVD  is  to reduce redudancy. Now to  understand more about redudancy suppose say we have height as independet variable and
+weight  as  dep variable now if we  have  only 1 variabel out of  this still  that will be fine as other can be  predicted.So in this
+way redudancy should be removed  so that our model  is  less complex.So baiscally SVD  is used for dimension reduction.
+It also helps to group together the similiar words.
+21)What is Part-Of-Speech Tagging?: 
+In Simplistic terms, Part-Of-Speech Tagging is the process of marking up of words in a sentence as nouns, verbs, adjectives, adverbs etc.
+The Parts-Of-Speech are identified as –
+Ashok PROPN,killed VERB , the DET , snake NOUN , with ADP , a DET, stick NOUN , . PUNCT
+POS Implemenatauon:
+from nltk import word_tokenize, pos_tag
+text = "I am learning Natural Language Processing on Analytics Vidhya"
+tokens = word_tokenize(text)
+print pos_tag(tokens)
+>>> [('I', 'PRP'), ('am', 'VBP'), ('learning', 'VBG'), ('Natural', 'NNP'),('Language', 'NNP'),
+('Processing', 'NNP'), ('on', 'IN'), ('Analytics', 'NNP'),('Vidhya', 'NNP')]
+
+22) What is Named Entity Disambiguation?: 
+Named Entity Disambiguation is the process of identifying the mentions of entities in a sentence. For example, in the sentence-	  
+“Apple earned a revenue of 200 Billion USD in 2016”
+It is the task of Named Entity Disambiguation to infer that Apple in the sentence is the company Apple and not a fruit.
+23)What is Named Entity Recognition?: 
+Named Entity Recognition is the task of identifying entities in a sentence and classifying them into categories like a person, organisation, date,
+ location, time etc.
+ nltk.ne_chunk(tags)
+nltk.ne_chunk(tags).draw()  --- To draw
+24 Bag of Words : 
+This techniques creates a ‘bag’ or group of words by counting the number of times each word has appear and use these counts as independent variables.
+25)# Sample code to remove noisy words from a text
+noise_list = ["is", "a", "this", "..."] 
+def _remove_noise(input_text):
+    words = input_text.split() 
+    noise_free_words = [word for word in words if word not in noise_list] 
+    noise_free_text = " ".join(noise_free_words) 
+    return noise_free_text
+_remove_noise("this is a sample text")
+>>> "sample text"
+```
+26) TF - IDF : It is also known as Term Frequency - Inverse Document Frequency. This technique believes that, from a document corpus,
+ a learning algorithm gets more information from the rarely occurring terms than frequently occurring terms.  Using a weighted scheme,
+ this technique helps to score the importance of terms. The terms occurring frequently are weighted lower and the terms occurring rarely
+ get weighted higher. * TF is be calculated as: frequency of a term in a document / all the terms in the document.
+ * IDF is calculated as: ratio of log (total documents in the corpus / number of documents with the 'term' in the corpus) 
+ * Finally, TF-IDF is calculated as: TF X IDF. Fortunately, R has packages which can do these calculations effort
+27)Object Standardization
+Text data often contains words or phrases which are not present in any standard lexical dictionaries. These pieces are not recognized by search engines
+ and models.the code below uses a dictionary lookup method to replace social media slangs from a text.
+ lookup_dict = {'rt':'Retweet', 'dm':'direct message', "awsm" : "awesome", "luv" :"love", "..."}
+def _lookup_words(input_text):
+    words = input_text.split() 
+    new_words = [] 
+    for word in words:
+        if word.lower() in lookup_dict:
+            word = lookup_dict[word.lower()]
+        new_words.append(word) new_text = " ".join(new_words) 
+        return new_text
+
+_lookup_words("RT this is a retweeted tweet by Shivam Bansal")
+>> "Retweet this is a retweeted tweet by Shivam Bansal"
+
+28) n-grams : 
+In the document corpus, 1 word (such as baby, play, drink) is known as 1-gram. Similarly, 
+we can have 2-gram (baby toy, play station, diamond ring), 3-gram etc. The idea behind this technique is to explore the chances that when one or 
+two or more words occurs together gives more information to the model.
+N-Grams as Features
+A combination of N words together are called N-Grams.
+def generate_ngrams(text, n):
+    words = text.split()
+    output = []  
+    for i in range(len(words)-n+1):
+        output.append(words[i:i+n])
+    return output
+>>> generate_ngrams('this is a sample text', 2)
+# [['this', 'is'], ['is', 'a'], ['a', 'sample'], , ['sample', 'text']] 
+29)Text Cleaning  
+It involves cleaning the text in following ways:
+Remove words - If the data is extracted using web scraping, you might want to remove html tags.
+Remove number - Similarly, we remove numerical figures from text
+Remove whitespaces - Then, we remove the used spaces in the text.
+
+============sentimental analysis practical ... remember below points but also do practical hands on... check udemy video or try other resources===
+few points to remember:
+We have xml file so have used from bs4 import Beaut
+ifulSoup
+xml had positive and negative reviews
+do all cleaning then convert to vectors
+
+

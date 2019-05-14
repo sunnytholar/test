@@ -1,0 +1,71 @@
+When have time refer link:
+https://www.analyticsvidhya.com/blog/2015/06/regular-expression-python/
+
+===========String manipulation & regex==
+We use string manipulation functions to do simple tasks such as splitting a string, extracting the first three letters, etc..
+We use regular expressions to do more complicated tasks such as extract email IDs or date from a set of text.
+1) which library should we use in python
+Use this code --> Import re
+the most commonly used methods, I will discuss:
+re.match(pattern, string)
+import re
+result = re.match(r'AV', 'AV Analytics Vidhya AV')
+print result
+re.search()
+result = re.search(r'Analytics', 'AV Analytics Vidhya AV')
+print result.group(0)
+Output:
+Analytics
+re.findall()
+While searching a string, I would recommend you to use re.findall() always, it can work like re.search() and re.match() both.
+result = re.findall(r'AV', 'AV Analytics Vidhya AV')
+print result
+Output:
+['AV', 'AV']
+re.split(pattern, string, [maxsplit=0]):
+result=re.split(r'y','Analytics')
+result
+Output:
+['Anal', 'tics']
+re.split(r'i','Analytics Vidhya',maxsplit=1) ... here as we add maxsplit it will do only 1 split.by default it does any no of split
+re.sub(pattern, repl, string):
+It substitue the pattern:
+result=re.sub(r'India','the World','AV is largest Analytics community of India')
+result
+Output:
+'AV is largest Analytics community of the World'
+re.compile(pattern, repl, string):
+We can combine a regular expression pattern into pattern objects, which can be used for pattern matching. 
+It also helps to search a pattern again without rewriting it.
+import re
+pattern=re.compile('AV')
+result=pattern.findall('AV Analytics Vidhya AV')
+print result
+result2=pattern.findall('AV is largest analytics community of India')
+print result2
+Output:
+['AV', 'AV']
+['AV']
+Operators	Description
+.	 Matches with any single character except newline ‘\n’.
+?	 match 0 or 1 occurrence of the pattern to its left
++	 1 or more occurrences of the pattern to its left
+*	 0 or more occurrences of the pattern to its left
+\w	 Matches with a alphanumeric character whereas \W (upper case W) matches non alphanumeric character.
+\d	  Matches with digits [0-9] and /D (upper case D) matches with non-digits.
+\s	 Matches with a single white space character (space, newline, return, tab, form) and \S (upper case S) matches any non-white space character.
+\b	 boundary between word and non-word and /B is opposite of /b
+[..]	 Matches any single character in a square bracket and [^..] matches any single character not in square bracket
+\	 It is used for special meaning characters like \. to match a period or \+ for plus sign.
+^ and $	 ^ and $ match the start or end of the string respectively
+{n,m}	 Matches at least n and at most m occurrences of preceding expression if we write it as {,m} then it will return at least any minimum occurrence
+ to max m preceding expression.
+a| b	 Matches either a or b
+( )	Groups regular expressions and returns matched text
+\t, \n, \r	 Matches tab, newline, return
+eg:
+result=re.findall(r'\w','AV is largest Analytics community of India')
+print result
+Output:
+['A', 'V', 'i', 's', 'l', 'a', 'r', 'g', 'e', 's', 't', 'A', 'n', 'a', 'l', 'y', 't', 'i', 'c', 's', 'c', 'o', 'm', 'm', 'u', 'n', 'i', 't', 'y', 'o', 'f', 
+'I', 'n', 'd', 'i', 'a']
