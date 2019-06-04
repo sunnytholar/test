@@ -1,38 +1,7 @@
-﻿from nltk.corpus import stopwords 
-from nltk.tokenize import word_tokenize 
-  
-example_sent = "This is a sample sentence, showing off the stop words filtration."
-  
-stop_words = set(stopwords.words('english')) 
+﻿what is countvectorizer in python?
+https://www.youtube.com/watch?v=FrmrHyOSyhE
 
-
-word_tokens = word_tokenize(example_sent) 
-print(type(word_tokens))
-filtered_sentence = [w for w in word_tokens if not w in stop_words] 
-print(example_sent)
-print(word_tokens) 
-print(filtered_sentence) 
-" ".join(filtered_sentence)
-
-
-++++++++++++++++++++++++++no punctuations below#############
-# define punctuation
-punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
-
-my_str = "Hello!!!, he said ---and went."
-
-# To take input from the user
-# my_str = input("Enter a string: ")
-
-# remove punctuation from the string
-no_punct = ""
-for char in my_str:
-    
-  if char not in punctuations:
-      no_punct = no_punct + char
-
-# display the unpunctuated string
-print(no_punct)
+copy pre processing steps from office laptop
 
 Index:
 1 - Introduction
@@ -51,14 +20,15 @@ Index:
 26 - TF - IDF 
 27 - Object Standardization
 28 - Text Cleaning 
+30 - Textblob
+31 - spacy
+32 - Remove noisy words from the text
+
+https://www.analyticsvidhya.com/blog/2017/01/ultimate-guide-to-understand-implement-natural-language-processing-codes-in-python/     important refer agaim when have time
+https://www.analyticsvidhya.com/blog/2018/04/a-comprehensive-guide-to-understand-and-implement-text-classification-in-python/			 important refer agaim when have time
+https://www.hackerearth.com/practice/machine-learning/advanced-techniques/text-mining-feature-engineering-r/tutorial/    important refer agaim when have time
 
 
-
-https://www.analyticsvidhya.com/blog/2017/01/ultimate-guide-to-understand-implement-natural-language-processing-codes-in-python/     important
-https://www.analyticsvidhya.com/blog/2018/04/a-comprehensive-guide-to-understand-and-implement-text-classification-in-python/
-https://www.hackerearth.com/practice/machine-learning/advanced-techniques/text-mining-feature-engineering-r/tutorial/   important link
-https://www.analyticsvidhya.com/blog/2018/02/natural-language-processing-for-beginners-using-textblob/
-https://www.analyticsvidhya.com/blog/2017/10/essential-nlp-guide-data-scientists-top-10-nlp-tasks/
 
 Udemy video materials  - https://github.com/lazyprogrammer/machine_learning_examples
 I have went through video practise when have time - https://www.youtube.com/watch?v=mKxFfjNyj3c
@@ -243,6 +213,11 @@ _remove_noise("this is a sample text")
  get weighted higher. * TF is be calculated as: frequency of a term in a document / all the terms in the document.
  * IDF is calculated as: ratio of log (total documents in the corpus / number of documents with the 'term' in the corpus) 
  * Finally, TF-IDF is calculated as: TF X IDF. Fortunately, R has packages which can do these calculations effort
+from sklearn.feature_extraction.text import TfidfVectorizer
+obj = TfidfVectorizer()
+corpus = ['This is sample document.', 'another random document.', 'third sample document text']
+X = obj.fit_transform(corpus)
+print(X)
 27)Object Standardization
 Text data often contains words or phrases which are not present in any standard lexical dictionaries. These pieces are not recognized by search engines
  and models.the code below uses a dictionary lookup method to replace social media slangs from a text.
@@ -278,7 +253,28 @@ It involves cleaning the text in following ways:
 Remove words - If the data is extracted using web scraping, you might want to remove html tags.
 Remove number - Similarly, we remove numerical figures from text
 Remove whitespaces - Then, we remove the used spaces in the text.
+30) Spacy and textblob:
+It is  build on top on NLTK
+TextBlob is a python library and offers a simple API to access its methods and perform basic NLP tasks.
+To download corpora
+python -m textblob.download_corpora
+https://www.analyticsvidhya.com/blog/2018/02/natural-language-processing-for-beginners-using-textblob/
+31) Spacy:
+spacy is again build on top of nltk and  most frequently used compare to nltk and textblob
+It is also faster as compare to others.To do few stuffs we can refer below link
+https://www.analyticsvidhya.com/blog/2017/10/essential-nlp-guide-data-scientists-top-10-nlp-tasks/
+32)Remove noisy word from the text
+# Sample code to remove noisy words from a text
+noise_list = ["is", "a", "this", "..."] 
+def _remove_noise(input_text):
+    words = input_text.split() 
+    noise_free_words = [word for word in words if word not in noise_list] 
+    noise_free_text = " ".join(noise_free_words) 
+    return noise_free_text
 
+_remove_noise("this is a sample text")
+>>> "sample text"
+33) 
 ============sentimental analysis practical ... remember below points but also do practical hands on... check udemy video or try other resources===
 few points to remember:
 We have xml file so have used from bs4 import Beaut
